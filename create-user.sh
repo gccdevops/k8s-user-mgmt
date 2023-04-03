@@ -18,6 +18,7 @@ kind: CertificateSigningRequest
 metadata:
   name: $USERNAME-k8s-access
 spec:
+  expirationSeconds: 86400 # one day
   signerName: kubernetes.io/kube-apiserver-client  
   groups:
   - system:authenticated
@@ -57,7 +58,8 @@ kubectl config use-context $USERNAME --kubeconfig=$USERNAME-k8s-config
 
 echo "create rolebinding for user $USERNAME"
 
-kubectl create rolebinding $USERNAME-admin --namespace=$NAMESPACE --clusterrole=admin --user=$USERNAME
+# kubectl create rolebinding $USERNAME-admin --namespace=$NAMESPACE --clusterrole=admin --user=$USERNAME
+# kubectl create clusterrolebinding devops-view  --clusterrole=view --group=devops
 
 echo "kubeconfig for user $USERNAME has been saved to $USERNAME-k8s-config"
 echo
